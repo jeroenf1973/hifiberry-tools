@@ -1,0 +1,18 @@
+#!/bin/sh
+cd `dirname $0`
+MYDIR=`pwd`
+
+sudo apt-get -y install build-essential portaudio19-dev
+
+cd /tmp
+wget https://github.com/herrernst/librespot/releases/download/v20161230-7fd8503/librespot-linux-armhf-raspberry_pi.zip
+unzip librespot-linux-armhf-raspberry_pi.zip
+rm librespot-linux-armhf-raspberry_pi.zip
+sudo sudo mkdir -p /opt/hifiberry/bin
+sudo mv librespot /opt/hifiberry/bin
+
+cd $MYDIR
+pwd
+sudo cp systemd/spotify.service /opt/hifiberry/bin
+sudo systemctl enable /opt/hifiberry/bin/spotify.service
+sudo systemctl restart spotify.service
