@@ -10,4 +10,3 @@ pcm.!default {
     slave.pcm       "hifiberry"
 }
 
-
