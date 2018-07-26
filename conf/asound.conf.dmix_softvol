@@ -27,7 +27,7 @@ pcm.softvol {
   type softvol
   slave.pcm "dmixer"
   control {
-    name "Master"
+    name "Softvol"
     card 0
   }
   min_dB -90.2
