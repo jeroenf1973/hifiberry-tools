@@ -55,13 +55,69 @@ guess_card() {
  fi
 }
 
+# Calculate system names
+system_name() {
+ if [ -f /etc/systemname ]; then
+   SYSNAME=`cat /etc/systemname`
+ else
+   SYSNAME=HiFiBerry
+   echo $SYSNAME > /etc/systemname
+ fi
+
+ SYSNAME_NO_SPACES=`echo $SYSNAME | sed s/\ /-/g`
+}
+
+# Reconfigure SpotifyD
+reconfigure_spotify() {
+ sed -i s/mixer\ =.*/mixer\ =\ $MIXER_CONTROL/ /etc/spotifyd.conf 
+ sed -i s/device_name\ =.*/device_name\ =\ $SYSNAME_NO_SPACES/ /etc/spotifyd.conf
+
+}
+
+# Reconfigure Shairport-sync
+reconfigure_shairport() {
+ sed -i s/mixer_control_name\ =\ .*/mixer_control_name\ =\ \"$MIXER_CONTROL\"\;/ /etc/shairport-sync.conf 
+ sed -i s/\ name\ =\ .*/\ name\ =\ \"$SYSNAME_NO_SPACES\"\;/ /etc/shairport-sync.conf  
+}
+
 MIXER_CONTROL=""
 CARD="unknown"
 
+if [ -f /etc/hifiberry.state ]; then 
+. /etc/hifiberry.state
+fi
+
+# make sure there was some program using ALSA before looking
+# up ALSA controls
+play -q -n synth 0.1 sine 1 2>/dev/null
+
 guess_volume_control
 guess_card
+system_name
+
+if [ "$CURRENT_MIXER_CONTROL" != "$MIXER_CONTROL" ] || [ "$CURRENT_CARD" != "$CARD" ] || [ "$CURRENT_SYSNAME" != "$SYSNAME" ]; then
+ echo "Sound card settings have been changed, reconfiguring..."
+else
+ echo "Nothing changed, exiting..."
+ exit
+fi
+                                  
 
 echo "Applying settings: "
-echo " Sound card: " $CARD
+echo " System name: $SYSNAME"
+echo " Sound card: $CARD"
 echo " ALSA mixer control: $MIXER_CONTROL"
+echo
+
+# TODO: check previous settings
+
+echo "Reconfiguring Spotifyd"
+reconfigure_spotify
+echo "Reconfiguring Shairport-sync"
+reconfigure_shairport
+
+echo "Saving settings to /etc/hifiberry.state"
+echo "CURRENT_MIXER_CONTROL=\"$MIXER_CONTROL\"" > /etc/hifiberry.state
+echo "CURRENT_CARD=\"$CARD\"" >> /etc/hifiberry.state
+echo "CURRENT_SYSNAME=\"$SYSNAME\"" >> /etc/hifiberry.state 
 
