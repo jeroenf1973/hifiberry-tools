@@ -40,6 +40,18 @@ guess_card() {
     return
  fi
 
+ DIGIPRO=`aplay -l | grep Digi+ | grep Pro`
+ if [ "$DIGIPRO" != "" ]; then
+   CARD="Digi+ Pro"
+   return
+ fi
+
+ DIGI=`aplay -l | grep Digi+`
+ if [ "$DIGI" != "" ]; then
+   CARD="Digi+"
+    return
+ fi
+
  CLKGEN=`i2cget -y 1 0x60 2 2>/dev/null`
  if [ "$CLKGEN" == "0x03" ]; then
     CARD="Beocreate 4 channel amplifier"
