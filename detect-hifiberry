@@ -3,11 +3,10 @@
 FOUND=`aplay -l|grep hifiberry | grep -v "pcm5102"`
 VERSION=2
 CONFIG=/boot/config.txt
-I2CBUS=1
 
 function check_i2c {
 	modprobe i2c-dev
-        if [ ! -e /dev/i2c-$I2CBUS ]; then
+        if [ ! -e /dev/i2c-1 ]; then
                 echo "I2C device file not found, need to modify config.txt"
                 echo "dtparam=i2c1=on" >> $CONFIG
                 echo "Rebooting in 5 seconds, abort reboot?"
@@ -21,19 +20,19 @@ function check_i2c {
 
 function detect_card {
 	# Digi/Digi+
-	res=`i2cget -y $I2CBUS 0x3b 1 2>/dev/null`
+	res=`i2cget -y 1 0x3b 1 2>/dev/null`
 	if [ "$res" == "0x88" ]; then
 		echo "digi"
 	fi
 
 	# DAC Plus
-	res=`i2cget -y $I2CBUS 0x4d 40 2>/dev/null`
+	res=`i2cget -y 1 0x4d 40 2>/dev/null`
 	if [ "$res" == "0x02" ]; then
                 echo "dacplus"
         fi
 
 	# Amp/Amp+
-	res=`i2cget -y $I2CBUS 0x1b 0 2>/dev/null`
+	res=`i2cget -y 1 0x1b 0 2>/dev/null`
         if [ "$res" == "0x6c" ]; then
                 echo "amp"
         fi
@@ -42,13 +41,13 @@ function detect_card {
         fi
 
         # Beocreate
-        res=`i2cget -y $I2CBUS 0x60 2 2>/dev/null`
+        res=`i2cget -y 1 0x60 2 2>/dev/null`
         if [ "$res" == "0x03" ]; then
                 echo "beo"
         fi
 
         # Some I2C addresses might be blocked from HAT EEPROM, but hifibarry-dac is used
-        res=`i2cdetect -y $I2CBUS | grep UU`
+        res=`i2cdetect -y 1 | grep UU`
         if [ "$res" != "" ]; then
                 echo "blocked"
         fi
@@ -79,7 +78,7 @@ if [ "$FOUND" == "" ]; then
         if [ "$?" != 0 ]; then
           echo "Found HiFiBerry DAC configuration, removing it" >>/var/log/hifiberry.log
           mv /boot/config.txt2 /boot/config.txt
-          sleep 20
+          sleep 5
           sync
           reboot
         fi
@@ -106,7 +105,7 @@ if [ "$FOUND" == "" ]; then
         if [ "$?" != 0 ]; then
           echo "Found old configuration, removing it" >>/var/log/hifiberry.log
           mv /boot/config.txt2 /boot/config.txt
-          sleep 20
+          sleep 5
           sync
           reboot
         fi
@@ -117,7 +116,7 @@ if [ "$FOUND" == "" ]; then
         else
           echo "dtoverlay=hifiberry-dac" >> /boot/config.txt
           echo "Nothing detected, assuming HiFiBerry DAC+ Light/Zero" >>/var/log/hifiberry.log
-          sleep 20
+          sleep 5
           reboot
         fi
  fi
