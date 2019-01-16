@@ -38,7 +38,6 @@ sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/con
 sudo mv ices.conf ices.xml
 sudo chown icecast ices.xml
 cd /etc/icecast2
-sudo mv icecast2.xml icecast2.xml.bak
-sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/icecast2.conf
-sudo mv icecast2.conf icecast2.xml
-sudo chown icecast icecast2.xml
+sudo mv icecast.xml icecast.xml.bak
+sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/icecast.xml
+sudo chown icecast icecast.xml
