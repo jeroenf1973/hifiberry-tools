@@ -31,4 +31,7 @@ ENABLE=true
 EOT
 systemctl enable icecast2
 
+# Install config files
+cd /etc
+sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/ices.conf
 
