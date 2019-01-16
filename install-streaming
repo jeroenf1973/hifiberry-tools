@@ -34,7 +34,11 @@ sudo systemctl enable icecast2
 # Install config files
 cd /etc
 sudo mv ices.xml ices.xml.bak
-sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/ices.xml
+sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/ices.conf
+sudo mv ices.conf ices.xml
+sudo chown icecast ices.xml
 cd /etc/icecast2
 sudo mv icecast2.xml icecast2.xml.bak
-sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/icecast2.xml
+sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/icecast2.conf
+sudo mv icecast2.conf icecast2.xml
+sudo chown icecast icecast2.xml
