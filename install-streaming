@@ -29,7 +29,7 @@ USERID=icecast
 GROUPID=audio
 ENABLE=true
 EOT
-systemctl enable icecast2
+sudo systemctl enable icecast2
 
 # Install config files
 cd /etc
