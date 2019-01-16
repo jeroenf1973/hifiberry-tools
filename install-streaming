@@ -18,3 +18,17 @@ sudo mkdir -p /var/log/ices
 
 sudo chown -R icecast /var/log/icecast2
 sudo chown -R icecast /var/log/ices
+
+# Icecast systemd integration
+cat <<EOT | sudo tee /etc/default/icecast2
+# Full path to the server configuration file
+CONFIGFILE="/etc/icecast2/icecast.xml"
+
+# Name or ID of the user and group the daemon should run under
+USERID=icecast
+GROUPID=audio
+ENABLE=true
+EOT
+systemctl enable icecast2
+
+
