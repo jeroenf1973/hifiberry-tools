@@ -81,7 +81,7 @@ Group=audio
 ExecStart=/usr/bin/ices2 /etc/ices.xml
 
 [Install]
-WantedBy=multiuser.target
+WantedBy=multi-user.target
 EOT
 
 sudo systemctl enable ices2
