@@ -49,6 +49,7 @@ Type=forking
 [Install]
 WantedBy=multi-user.target
 EOT
+
 sudo systemctl enable icecast2
 
 # Ices2 startup
@@ -61,11 +62,11 @@ After=icecast2.service
 User=icecast
 Group=audio
 ExecStart=/usr/bin/ices2 /etc/ices.xml
-Type=forking
 
 [Install]
 WantedBy=multiuser.target
 EOT
+
 sudo systemctl enable ices2
 
 # Start Icecast and Ices2
