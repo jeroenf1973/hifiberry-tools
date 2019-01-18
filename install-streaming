@@ -4,7 +4,7 @@ sudo apt-get -y dist-upgrade
 sudo apt-get -y install wget
 
 # Install Icecast
-sudo apt-get -yq install icecast2
+sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install icecast2
 
 # Install ices
 sudo apt-get install -yq ices2
@@ -33,7 +33,7 @@ sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/con
 sudo chown icecast icecast.xml
 
 # Icecast systemd integration
-rm /etc/init.d/icecast2
+sudo rm /etc/init.d/icecast2
 cat <<EOT | sudo tee /lib/systemd/system/icecast2.service
 [Unit]
 Description=Icecast2
