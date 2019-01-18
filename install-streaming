@@ -55,7 +55,7 @@ sudo systemctl enable icecast2
 cat <<EOT | sudo tee /lib/systemd/system/ices2.service
 [Unit]
 Description=Ices2
-After=icecast2.target
+After=icecast2.service
 
 [Service]
 User=icecast
