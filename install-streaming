@@ -15,9 +15,11 @@ sudo useradd icecast -g audio
 # Set correct permissions
 sudo mkdir -p /var/log/icecast2
 sudo mkdir -p /var/log/ices
+sudo mkdir -p /var/run/icecast 
 
 sudo chown -R icecast /var/log/icecast2
 sudo chown -R icecast /var/log/ices
+sudo chown -R icecast /var/run/icecast
 
 # Install config files
 cd /etc
