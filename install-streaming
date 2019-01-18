@@ -19,6 +19,17 @@ sudo mkdir -p /var/log/ices
 sudo chown -R icecast /var/log/icecast2
 sudo chown -R icecast /var/log/ices
 
+# Install config files
+cd /etc
+sudo mv ices.xml ices.xml.bak
+sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/ices.conf
+sudo mv ices.conf ices.xml
+sudo chown icecast ices.xml
+cd /etc/icecast2
+sudo mv icecast.xml icecast.xml.bak
+sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/icecast.xml
+sudo chown icecast icecast.xml
+
 # Icecast systemd integration
 cat <<EOT | sudo tee /etc/default/icecast2
 # Full path to the server configuration file
@@ -31,13 +42,23 @@ ENABLE=true
 EOT
 sudo systemctl enable icecast2
 
-# Install config files
-cd /etc
-sudo mv ices.xml ices.xml.bak
-sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/ices.conf
-sudo mv ices.conf ices.xml
-sudo chown icecast ices.xml
-cd /etc/icecast2
-sudo mv icecast.xml icecast.xml.bak
-sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/conf/icecast.xml
-sudo chown icecast icecast.xml
+# Ices2 startup
+cat <<EOT | sudo tee /lib/systemd/system/ices2.service
+[Unit]
+Description=Ices2
+After=icecast2.target
+
+[Service]
+ExecStart=/usr/bin/ices2 /etc/ices2.
+Type=forking
+
+[Install]
+WantedBy=multiuser.target
+EOT
+
+sudo systemctl enable ices2
+
+# Start Icecast and Ices2
+sudo systemctl start icecast
+sudo systemctl start ices.xml
+
