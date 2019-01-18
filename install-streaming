@@ -33,7 +33,7 @@ sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/con
 sudo chown icecast icecast.xml
 
 # Icecast systemd integration
-rm /etc/init.d/icecast2
+sudo rm /etc/init.d/icecast2
 cat <<EOT | sudo tee /lib/systemd/system/icecast2.service
 [Unit]
 Description=Icecast2
