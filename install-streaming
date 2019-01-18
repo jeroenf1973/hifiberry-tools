@@ -67,6 +67,7 @@ Type=forking
 WantedBy=multi-user.target
 EOT
 
+sudo systemctl daemon-reload
 sudo systemctl enable icecast2
 
 # Ices2 startup
@@ -84,6 +85,7 @@ ExecStart=/usr/bin/ices2 /etc/ices.xml
 WantedBy=multi-user.target
 EOT
 
+sudo systemctl daemon-reload
 sudo systemctl enable ices2
 
 # Start Icecast and Ices2
