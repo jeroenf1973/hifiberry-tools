@@ -15,11 +15,11 @@ sudo useradd icecast -g audio
 # Set correct permissions
 sudo mkdir -p /var/log/icecast2
 sudo mkdir -p /var/log/ices
-sudo mkdir -p /var/run/icecast 
+sudo mkdir -p /var/icecast 
 
 sudo chown -R icecast /var/log/icecast2
 sudo chown -R icecast /var/log/ices
-sudo chown -R icecast /var/run/icecast
+sudo chown -R icecast /var/icecast
 
 # Install config files
 cd /etc
@@ -43,6 +43,7 @@ After=network.target
 User=icecast
 Group=audio
 ExecStart=/usr/bin/icecast2 -b -c /etc/icecast2/icecast.xml
+PIDFile=/var/icecast/icecast.pid
 Type=forking
 
 [Install]
