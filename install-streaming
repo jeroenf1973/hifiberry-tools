@@ -49,7 +49,7 @@ Description=Ices2
 After=icecast2.target
 
 [Service]
-ExecStart=/usr/bin/ices2 /etc/ices2.
+ExecStart=/usr/bin/ices2 /etc/ices.xml
 Type=forking
 
 [Install]
@@ -59,6 +59,6 @@ EOT
 sudo systemctl enable ices2
 
 # Start Icecast and Ices2
-sudo systemctl start icecast
-sudo systemctl start ices.xml
+sudo systemctl start icecast2
+sudo systemctl start ices2
 
