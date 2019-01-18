@@ -64,7 +64,6 @@ Type=forking
 [Install]
 WantedBy=multiuser.target
 EOT
-
 sudo systemctl enable ices2
 
 # Start Icecast and Ices2
