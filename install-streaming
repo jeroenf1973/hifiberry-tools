@@ -58,6 +58,8 @@ Description=Ices2
 After=icecast2.target
 
 [Service]
+User=icecast
+Group=audio
 ExecStart=/usr/bin/ices2 /etc/ices.xml
 Type=forking
 
