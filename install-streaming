@@ -33,14 +33,20 @@ sudo wget https://raw.githubusercontent.com/hifiberry/hifiberry-tools/master/con
 sudo chown icecast icecast.xml
 
 # Icecast systemd integration
-cat <<EOT | sudo tee /etc/default/icecast2
-# Full path to the server configuration file
-CONFIGFILE="/etc/icecast2/icecast.xml"
+rm /etc/init.d/icecast2
+cat <<EOT | sudo tee /lib/systemd/system/icecast2.service
+[Unit]
+Description=Icecast2
+After=network.target
 
-# Name or ID of the user and group the daemon should run under
-USERID=icecast
-GROUPID=audio
-ENABLE=true
+[Service]
+User=icecast
+Group=audio
+ExecStart=/usr/bin/icecast2 -b -c /etc/icecast2/icecast.xml
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
 EOT
 sudo systemctl enable icecast2
 
