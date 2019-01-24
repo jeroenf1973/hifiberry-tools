@@ -1,6 +1,6 @@
 # Install prerequisites
 sudo apt-get -y update
-sudo apt-get -y dist-upgrade
+sudo apt-get -y upgrade
 sudo apt-get -y install wget git
 
 # Download DAC+ ADC kernel
