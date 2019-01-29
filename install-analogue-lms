@@ -25,3 +25,6 @@ DEB=logitechmediaserver_7.9.2~1548427341_arm.deb
 wget http://downloads.slimdevices.com/nightly/7.9/sc/f2089582f202bb4f96441ae79b3251007a7c6d62/$DEB
 sudo apt-get install -y ./$DEB
 sudo apt-get -f install
+
+# Make sure LMS can access the audio device
+sudo usermod -G audio squeezeboxserver
