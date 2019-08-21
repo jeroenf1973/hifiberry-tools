@@ -77,6 +77,7 @@ system_name() {
  fi
 
  SYSNAME_NO_SPACES=`echo $SYSNAME | sed s/\ /-/g`
+ SYSNAME_SED_SPACES=`echo $SYSNAME | sed 's/\ /\\\\\\ /g'` 
 }
 
 # Reconfigure SpotifyD
@@ -90,6 +91,11 @@ reconfigure_spotify() {
 reconfigure_shairport() {
  sed -i s/mixer_control_name\ =\ .*/mixer_control_name\ =\ \"$MIXER_CONTROL\"\;/ /etc/shairport-sync.conf 
  sed -i s/\ name\ =\ .*/\ name\ =\ \"$SYSNAME_NO_SPACES\"\;/ /etc/shairport-sync.conf  
+}
+
+# Reconfigure Bluetooth
+reconfigure_bluetooth() {
+ sed -i "s/Name\ =\ .*/Name\ =\ \"$SYSNAME_SED_SPACES\"\;/" /etc/bluetooth/main.cf
 }
 
 MIXER_CONTROL=""
@@ -127,6 +133,8 @@ echo "Reconfiguring Spotifyd"
 reconfigure_spotify
 echo "Reconfiguring Shairport-sync"
 reconfigure_shairport
+echo "Reconfiguring Bluetooth"
+reconfigure_bluetooth
 
 echo "Saving settings to /etc/hifiberry.state"
 echo "CURRENT_MIXER_CONTROL=\"$MIXER_CONTROL\"" > /etc/hifiberry.state
