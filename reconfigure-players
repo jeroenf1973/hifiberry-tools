@@ -112,6 +112,11 @@ reconfigure_bluetooth() {
  sed -i "s/Name\ =\ .*/Name\ =\ \"$SYSNAME_SED_SPACES\"\;/" /etc/bluetooth/main.cf
 }
 
+# Reconfigure squeezelite
+reconfigure_squeezelite() {
+ echo $SYSNAME > /var/squeezelite/squeezelite.name
+}
+
 MIXER_CONTROL=""
 CARD="unknown"
 
@@ -149,6 +154,8 @@ echo "Reconfiguring Shairport-sync"
 reconfigure_shairport
 echo "Reconfiguring Bluetooth"
 reconfigure_bluetooth
+echo "Reconfiguring squeezelite"
+reconfigure_squeezelite
 
 echo "Saving settings to /etc/hifiberry.state"
 echo "CURRENT_MIXER_CONTROL=\"$MIXER_CONTROL\"" > /etc/hifiberry.state
