@@ -109,7 +109,7 @@ reconfigure_shairport() {
 
 # Reconfigure Bluetooth
 reconfigure_bluetooth() {
- sed -i "s/Name\ =\ .*/Name\ =\ \"$SYSNAME_SED_SPACES\"\;/" /etc/bluetooth/main.cf
+ sed -i "s/Name\ =\ .*/Name\ =\ $SYSNAME_SED_SPACES/" /etc/bluetooth/main.conf
 }
 
 # Reconfigure squeezelite
