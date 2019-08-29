@@ -81,6 +81,15 @@ guess_card() {
  fi
 }
 
+# Check if card can record
+can_record() {
+ ADC==`arecord -l | grep -i hifiberry`
+ if [ "$ADC" != "" ]; then
+   CAN_RECORD=1
+   return
+ fi
+}
+
 # Calculate system names
 system_name() {
  if [ -f /etc/systemname ]; then
@@ -117,6 +126,19 @@ reconfigure_squeezelite() {
  echo $SYSNAME > /var/squeezelite/squeezelite.name
 }
 
+# 
+reconfigure_recording() {
+ if [ ! -d /etc/hifiberry ]; then
+   mkdir -p /etc/hifiberry
+ fi
+ if [ "$CAN_RECORD" != "" ]; then
+   touch /etc/hifiberry/can_record
+ else if [ -f /etc/hifiberry/can_record ]; then
+     rm /etc/hifiberry/can_record
+   fi
+ fi
+}
+
 MIXER_CONTROL=""
 CARD="unknown"
 
@@ -144,9 +166,8 @@ echo "Applying settings: "
 echo " System name: $SYSNAME"
 echo " Sound card: $CARD"
 echo " ALSA mixer control: $MIXER_CONTROL"
+echo " Recording: $CAN_RECORD"
 echo
-
-# TODO: check previous settings
 
 echo "Reconfiguring Spotifyd"
 reconfigure_spotify
@@ -156,6 +177,8 @@ echo "Reconfiguring Bluetooth"
 reconfigure_bluetooth
 echo "Reconfiguring squeezelite"
 reconfigure_squeezelite
+echo "Reconfigure recording"
+reconfigure_recording
 
 echo "Saving settings to /etc/hifiberry.state"
 echo "CURRENT_MIXER_CONTROL=\"$MIXER_CONTROL\"" > /etc/hifiberry.state
