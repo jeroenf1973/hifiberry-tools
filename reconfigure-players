@@ -152,6 +152,7 @@ play -q -n synth 0.1 sine 1 2>/dev/null
 
 guess_volume_control
 guess_card
+can_record
 system_name
 
 if [ "$CURRENT_MIXER_CONTROL" != "$MIXER_CONTROL" ] || [ "$CURRENT_CARD" != "$CARD" ] || [ "$CURRENT_SYSNAME" != "$SYSNAME" ]; then
