@@ -4,21 +4,22 @@ sudo apt-get -y upgrade
 sudo apt-get -y install wget git
 
 # Download DAC+ ADC kernel
-cd
-echo "Downloading DAC+ ADC kernel from Github"
-git clone https://github.com/hifiberry/dacadckernel
-cd /
-echo Extracting kernel
-sudo tar xvfz ~/dacadckernel/4.18.dacadc.tar.gz
-cat /boot/config.txt | grep -v "kernel=" | grep -v "dtoverlay=hifiberry-" | grep -v "dtparam=audio=on" >> /tmp/config.txt
-echo Enabling kernel in /boot/config.txt
-echo "kernel=kernel7-hb.img" >> /tmp/config.txt
-echo "dtoverlay=hifiberry-dacplusadc" >> /tmp/config.txt
-sudo mv /boot/config.txt /boot/config.bak
-sudo mv /tmp/config.txt /boot/config.txt
-echo Removing temporary files
-cd
-rm -rf dacadckernel
+# Ik gebruik geen dac+ dus deze commenten we uit
+#cd
+#echo "Downloading DAC+ ADC kernel from Github"
+#git clone https://github.com/hifiberry/dacadckernel
+#cd /
+#echo Extracting kernel
+#sudo tar xvfz ~/dacadckernel/4.18.dacadc.tar.gz
+#cat /boot/config.txt | grep -v "kernel=" | grep -v "dtoverlay=hifiberry-" | grep -v "dtparam=audio=on" >> /tmp/config.txt
+#echo Enabling kernel in /boot/config.txt
+#echo "kernel=kernel7-hb.img" >> /tmp/config.txt
+#echo "dtoverlay=hifiberry-dacplusadc" >> /tmp/config.txt
+#sudo mv /boot/config.txt /boot/config.bak
+#sudo mv /tmp/config.txt /boot/config.txt
+#echo Removing temporary files
+#cd
+#rm -rf dacadckernel
 
 # Install Icecast
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install icecast2
